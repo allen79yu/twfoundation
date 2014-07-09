@@ -1,10 +1,12 @@
 <?php
 include("lib/LIB_http.php");
 include("lib/LIB_parse.php");
+require("catch_total.php");
 //define
-$total_items=30928;
+$total_items=$total;
 $total_page=((int)($total_items/10))+1;
 for($i=1;$i<=$total_page;$i++){
+	sleep(1);
 	$action = "http://cdcb.judicial.gov.tw/abbs/wkw/WHD6K02.jsp";
 	$method = "POST";
 	$ref = " ";
@@ -21,7 +23,7 @@ for($i=1;$i<=$total_page;$i++){
 	$data_array["kind1"] = "0";
 	$data_array["comname"] = "";
 	$data_array["pageSize"] = "10";
-	$data_array["pageTotal"]="3093";
+	$data_array["pageTotal"]= $total_items;
 	$data_array["pageNow"] = $i;
 //get response
 	$response = http($target=$action, $ref, $method, $data_array, EXCL_HEAD);
@@ -33,7 +35,8 @@ for($i=1;$i<=$total_page;$i++){
 	$link_array[]=10;
 	$index=0;
 //Crating name array
-	for($i=8;$i<count($after_parse);$i++){
+	for($i=0;$i<count($after_parse);$i++){
+		echo $after_parse[$i];
 		if($counter==5){	
 			$name_array[$index]=return_between($after_parse[$i], "<div align='center'>", "</div>" ,EXCL);//remove div
 			$name_array[$index]=str_replace("&nbsp;","",$name_array[$index]);//remove space
