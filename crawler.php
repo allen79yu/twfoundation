@@ -6,10 +6,10 @@ require_once "lib/LIB_parse.php";
 ini_set("memory_limit", '256M');
 ini_set("max_execute_time", 10000);
 global $debug;
-$debug = 1;
+$debug = 0;
 
 function catch_total($court){
-dd("Enter calc total for ".$court);
+  dd("Enter calc total for ".$court);
   $action = "http://cdcb.judicial.gov.tw/abbs/wkw/WHD6K02.jsp";
   $method = "POST";
   $ref = " ";
@@ -34,12 +34,12 @@ dd("Enter calc total for ".$court);
   preg_match_all($pattern, $string, $match);
   $total = implode($match[0]);
   $total = (int)$total;
-dd("Leave calc total for ".$court);
+  dd("Leave calc total for ".$court);
   return $total;
 }
 
 function crawler_court($court, $max_page = 0){
-dd("Enter crawler for ".$court);
+  dd("Enter crawler for ".$court);
   $total_items = catch_total($court);
   $total_page = ((int)($total_items/10))+1;
 
@@ -79,7 +79,7 @@ dd("Enter crawler for ".$court);
     // skip first 8 column for header
     $j = count($after_parse);
     $col = 1;
-    for($i=8; $i< $j; $i++){
+    for($i=8; $i < $j; $i++){
       if($col == 3){
         $num = return_between($after_parse[$i], "<div align='center'>", "</div>" ,EXCL);
         $num_array[] = str_replace("&nbsp;","",$num);
@@ -121,10 +121,14 @@ dd("Enter crawler for ".$court);
     }
     echo "saving...\n";
     file_put_contents($filename, array2csv($row), FILE_APPEND);
-    sleep(5);
+    if($exists_row == count($name_array)){
+      echo "All the item in this page added, stop crawler.\n";
+      break;
+    }
+    sleep(2);
   }
   
-dd("Leave crawler for ".$court);
+  dd("Leave crawler for ".$court);
 }
 
 function csv2array($filename){
@@ -189,5 +193,6 @@ $all_court = array(
 );
 
 foreach($all_court as $c){
-  crawler_court($c, 2);
+  //crawler_court($c, 20);
+  crawler_court($c);
 }
