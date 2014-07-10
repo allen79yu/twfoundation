@@ -5,7 +5,7 @@ Copyright 2007, Michael Schrenk
    This software is designed for use with the book,                                                             
    "Webbots, Spiders, and Screen Scarpers", Michael Schrenk, 2007 No Starch Press, San Francisco CA             
                                                                                                                 
-W3C® SOFTWARE NOTICE AND LICENSE                                                                                
+W3C? SOFTWARE NOTICE AND LICENSE                                                                                
                                                                                                                 
 This work (and included software, documentation such as READMEs, or other                                       
 related items) is being provided by the copyright holders under the following license.                          
