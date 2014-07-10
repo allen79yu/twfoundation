@@ -1,4 +1,4 @@
-#!/bin/php
+#!/usr/bin/php
 <?php
 require_once "lib/LIB_http.php";
 require_once "lib/LIB_parse.php";
@@ -45,12 +45,19 @@ function crawler_court($court, $max_page = 0){
 
   list($filename) = explode('&', $court, 2);
   $filename = 'output/'.$filename.'.csv';
-  $rows = csv2array($filename);
+  if(file_exists($filename)){
+    $rows = csv2array($filename);
+    $first_run = FALSE;
+  }
+  else{
+    $first_run = TRUE;
+  }
 
   $max_page = empty($max_page) ? $total_page : $max_page;
   
   // from last page
   for($page = $max_page; $page >= 1; $page--){
+    echo "fetch page $page\n";
     $action = "http://cdcb.judicial.gov.tw/abbs/wkw/WHD6K02.jsp";
     $method = "POST";
     $ref = " ";
@@ -121,11 +128,11 @@ function crawler_court($court, $max_page = 0){
     }
     echo "saving...\n";
     file_put_contents($filename, array2csv($row), FILE_APPEND);
-    if($exists_row == count($name_array)){
+    if($exists_row == count($name_array) && !$first_run){
       echo "All the item in this page added, stop crawler.\n";
       break;
     }
-    sleep(2);
+    usleep(500000);
   }
   
   dd("Leave crawler for ".$court);
