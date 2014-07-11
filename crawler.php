@@ -174,7 +174,6 @@ function dd($in){
 
 $all_court = array(
   'TPD&臺灣台北地方法院',
-/*
   'PCD&臺灣新北地方法院',
   'SLD&臺灣士林地方法院',
   'TYD&臺灣桃園地方法院',
@@ -196,7 +195,6 @@ $all_court = array(
   'KSY&臺灣高雄少年法院',
   'LCD&褔建連江地方法院',
   'KMD&福建金門地方法院',
-*/
 );
 
 foreach($all_court as $c){
